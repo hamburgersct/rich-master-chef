@@ -8,8 +8,8 @@ This is a restaurant simulation game based on the brick library to provide users
 
 ## Overview
 
+- The cook has three day limits to run the restaurant
 - Budget per day, grows by the profit made in the previous day if wins the game
 - Different ingredients & their prices
-- Total time in a day
-- Recipe time & their sale prices
+- Recipe processing costs & their sale prices
 - Earnings for the day
