@@ -13,3 +13,22 @@ This is a restaurant simulation game based on the brick library to provide users
 - Different ingredients & their prices
 - Recipe processing costs & their sale prices
 - Earnings for the day
+
+### Key Components
+
+- Kitchen: game board
+- Date: indicates earnings and game board status for the current date
+- Budget: budget allocated each day, and operations on the budget
+- Earning: earnings obtained each day so far
+- Player: status of the player
+
+### Challenges
+
+- Design of the architecture of the project
+
+  - Group meetings frequently
+  - Doing research for inspiration
+
+- Implementation: In progress
+
+### We expect to meet our goals until the deadline
