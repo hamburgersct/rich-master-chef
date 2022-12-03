@@ -26,6 +26,10 @@ source-repository head
 library
   exposed-modules:
       Lib
+      Model.Budget
+      Model.Date
+      Model.Earning
+      Model.Kitchen
   other-modules:
       Paths_rich_master_chef
   hs-source-dirs:
