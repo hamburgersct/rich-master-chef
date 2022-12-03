@@ -1,5 +1,5 @@
 {-# LANGUAGE DeriveFunctor #-}
-model Model.Kitchen
+module Model.Kitchen
     ( -- * Types
         Kitchen,
         Dish (..),

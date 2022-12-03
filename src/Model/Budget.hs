@@ -1,5 +1,5 @@
 {-# LANGUAGE RecordWildCards #-}
-model Model.Budget
+module Model.Budget
     (
         -- * Types
         Budget,

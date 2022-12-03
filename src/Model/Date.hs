@@ -1,5 +1,5 @@
 {-# LANGUAGE RecordWildCards #-}
-model Model.Date
+module Model.Date
     (
         -- * Types
         Date,
