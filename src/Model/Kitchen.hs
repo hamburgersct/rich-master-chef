@@ -19,7 +19,6 @@ module Model.Kitchen
         putClean,
         putConfirm,
         positions,
-        -- * putEat
         putRestart,
         emptyPositions,
         takenPositions,

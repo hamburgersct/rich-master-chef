@@ -28,9 +28,10 @@ getBudget Budget {..} = bKitchen
 
 budgetUp :: Budget -> Int -> Budget
 budgetUp b bUp = 
-    if bKitchen b + bUp > bMax b 
-        then b {bKitchen = bMax b}
-        else b {bKitchen = bKitchen b + bUp}
+    -- if bKitchen b + bUp > bMax b 
+    --     then b {bKitchen = bMax b}
+    --     else b {bKitchen = bKitchen b + bUp}
+    b {bKitchen = bKitchen b + bUp}
 
 budgetDown :: Budget -> Int -> Budget
 budgetDown b bDown =

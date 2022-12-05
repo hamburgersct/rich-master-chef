@@ -41,14 +41,14 @@ myMap _ = attrMap defAttr
 field :: PlayerState -> Widget String
 field s = 
   withBorderStyle unicode $
-    borderWithLabel (str ("Master-Chef")) $
+    borderWithLabel (str ("Rich-Master-Chef")) $
       vTile [ mkRow s row | row <- [1..dim] ]
 
 gameOver :: PlayerState -> Widget String
 gameOver s = 
   if psOver s == True
     then withBorderStyle unicodeBold
-        $ borderWithLabel (str ("Game is Over!"))
+        $ borderWithLabel (str ("Game Over!"))
         $ center
         $ vBox [str (getEnd s)]
     else emptyWidget
@@ -84,14 +84,14 @@ showStats s =
   $ vBox [str (getStats s)]
 
 getStats :: PlayerState -> String
-getStats s = printf "Current Budget = %d,\nEarning = %d,\nDate = %d\n" (getBudget p) (getCurrEarning er) (getDate d)
+getStats s = printf "Current Budget = %d,\nEarning = %d,\nRemaining Days = %d\n" (getBudget p) (getCurrEarning er) (getDate d)
       where p = psBudget s
             er = psEarning s
             d = psDate s
 
 --change wording--
 getInst :: String
-getInst = printf "Press A to plce Gradient A,\nPress B to place Gradient B,\nPress P to prepare gradients,\nPress S to season,\nPress K to cook a dish,\nPress C to clean up,\nPress E to serve\nPress Blank Space to Sleep"
+getInst = printf "Press A to place Gradient A,\nPress B to place Gradient B,\nPress P to prepare gradients,\nPress S to season,\nPress K to cook a dish,\nPress C to clean up,\nPress E to serve\nPress Blank Space to Sleep"
 
 -- getInst2 :: String
 -- getInst2 = printf "\nWhen plants need water their leaves are shrinking \nlike this /\\/\\\n"
@@ -110,11 +110,11 @@ getInst = printf "Press A to plce Gradient A,\nPress B to place Gradient B,\nPre
 --change wording--
 
 getEnd :: PlayerState -> String
-getEnd s = printf "Your final earning is %d.\nMaxEarning is %d.\nPress Enter to restart the game.\nOr press Esc to exit." (getCurrEarning er) (getMaxEarning er)
+getEnd s = printf "Your final day earning is %d.\nMax Earning is %d.\nPress Enter to restart the game.\nOr press Esc to exit." (getCurrEarning er) (getMaxEarning er)
       where er = psEarning s
 
 getSleep :: PlayerState -> String
-getSleep s = printf "You don't have enough budget now!\n\nPress blank space to sleep.\nPress E to to one of your grown plant.\nPress A to getback to game.\nNow you have %d scores %d budget" (getCurrEarning er) (getBudget p)
+getSleep s = printf "You don't have enough budget now!\n\nPress blank space to sleep.\nPress A to getback to game.\nNow you have earned %d, and the remaining %d budget will save for the next day" (getCurrEarning er) (getBudget p)
       where er = psEarning s
             p = psBudget s
 
@@ -150,7 +150,7 @@ mkDish (Just Prepared_us_B) = blockNeedS
 mkDish (Just DishB) = blockCooked
 mkDish (Just Bad) = blockBad
 
-blockB, blockGradientA0, blockGradientA1, blockCooked, blockNeedCS, blockNeedS, blockServed, blockBad:: Widget n
+blockB, blockGradientA0, blockGradientA1, blockCooked, blockNeedCS, blockNeedS, blockBad:: Widget n
 blockB = vBox (replicate 5 (str "     "))
 
 blockGradientA0  = vBox [ str "     "
@@ -168,42 +168,36 @@ blockGradientA1  = vBox [ str "     "
 blockGradientB  = vBox [ str "     "
                    , str "     "
                    , str "Gradient B"
-                   , str "\\   / "
-                   , str " \\_/ "]  
-
-blockServed = vBox [ str "     "
-                   , str "\\   /"
-                   , str " \\ / "
-                   , str "  |  "
-                   , str "  |  "]
+                   , str "\\      / "
+                   , str " \\____/ "]  
 
 blockNeedCS  = vBox [ str "     "
                    , str "     "
                    , str "Need Cook & Season"
-                   , str "\\   / "
-                   , str " \\_/ "]
+                   , str "\\              / "
+                   , str " \\____________/ "]
 
 blockNeedS  = vBox [ str "     "
                    , str "     "
                    , str "Need Season"
-                   , str "\\   / "
-                   , str " \\_/ "]
+                   , str "\\        / "
+                   , str " \\______/ "]
 
 blockNeedC = vBox [ str "     "
                    , str "     "
                    , str "Need Cook"
-                   , str "\\   / "
-                   , str " \\_/ "]
+                   , str "\\      / "
+                   , str " \\____/ "]
 
 blockBad = vBox [ str "     "
                      , str "     "
-                     , str " X X "
-                     , str "\\   / "
-                     , str " \\_/ "]
+                     , str " X X x x"
+                     , str "\\    / "
+                     , str " \\__/ "]
 
 blockCooked =    vBox [ str "     "
                       , str " _|_ "
-                      , str "(___)"
+                      , str "Ready"
                       , str "\\   / "
                       , str " \\_/ "]
 

@@ -31,7 +31,7 @@ init :: Int -> Earning
 init num = Earning num num
 
 add :: Earning -> Earning
-add e = e {eKitchen = eKitchen e + 1}
+add e = e {eKitchen = eKitchen e + 50}
 
 detract :: Earning -> Earning
 detract e = e {eKitchen = eKitchen e - 1}
