@@ -1,6 +1,5 @@
 {-# LANGUAGE RecordWildCards #-}
-
-model Model where
+module Model where 
 import Prelude hiding ((!!))
 import qualified Model.Budget as Budget
 import qualified Model.Kitchen as Kitchen
@@ -11,12 +10,12 @@ import System.Random
 
 data State 
   = Intro 
-  | state PlayerState
+  | Play PlayerState
   | Outro
 
 data Tick = Tick
 
-date PlayerState = PlayerState
+data PlayerState = PlayerState
   {
     psChef :: Player.Player
     , psBudget :: Budget.Budget
@@ -29,21 +28,22 @@ date PlayerState = PlayerState
     , psPos :: Kitchen.Pos
     , psDate :: Date.Date
   }
+  
 
 init :: Int -> PlayerState 
 init num= PlayerState
-{
-  psChef = Player.player
-  , psBudget = Budget.init 100
-  , psRand = mkStdGen 100
-  , psKitchen = Kitchen.init
-  , psBudgetLow =False 
-  , psEarning =Earning.init 0
-  , psResult = Kitchen.Cont()
-  , psOver = False
-  , psPos = head Kitchen.positions 
-  , psDate = Date.init num 
-}
+  {
+    psChef = Player.player
+    , psBudget = Budget.init 100
+    , psRand = mkStdGen 100
+    , psKitchen = Kitchen.init
+    , psBudgetLow =False 
+    , psEarning =Earning.init 0
+    , psResult = Kitchen.Cont()
+    , psOver = False
+    , psPos = head Kitchen.positions 
+    , psDate = Date.init num 
+  }
 
 nextMove :: PlayerState -> Kitchen.Result Kitchen.Kitchen -> Either (Kitchen.Result()) PlayerState
 nextMove state (Kitchen.Cont k') = Right (state {psKitchen = k'}) 

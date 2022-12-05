@@ -124,6 +124,9 @@ mkCell s r c
   where
     raw = mkCell' s r c
 
+mkRow :: PlayerState -> Int -> Widget n
+mkRow ps row = hTile [ mkCell ps row i | i <- [1..dim] ]
+
 withCursor :: Widget n -> Widget n
 withCursor = modifyDefAttr (`withStyle` reverseVideo)
 
@@ -137,16 +140,16 @@ mkDish :: Maybe Dish -> Widget n
 mkDish Nothing = blockB
 mkDish (Just GradientA0) = blockGradientA0
 mkDish (Just GradientA1) = blockGradientA1
-mkDish (Just Prepared_raw_us_A) = block_Prepared_raw_us_A
-mkDish (Just Prepared_cooked_us_A) = block_Prepared_cooked_us_A
-mkDish (Just Prepared_raw_s_A) = block_Prepared_raw_s_A
-mkDish (Just DishA) = blockServed
+mkDish (Just Prepared_raw_us_A) = blockNeedCS
+mkDish (Just Prepared_cooked_us_A) = blockNeedS
+mkDish (Just Prepared_raw_s_A) = blockNeedC
+mkDish (Just DishA) = blockCooked
 mkDish (Just GradientB) = blockGradientB
-mkDish (Just Prepared_us_B) = block_Prepared_us_B
-mkDish (Just DishB) = blockServed
+mkDish (Just Prepared_us_B) = blockNeedS
+mkDish (Just DishB) = blockCooked
 mkDish (Just Bad) = blockBad
 
-blockB, blockGradientA0, blockGradientA1, blockCooked, blockRawUnSeasoned, blockRawSeasoned, blockServed, blockBad:: Widget n
+blockB, blockGradientA0, blockGradientA1, blockCooked, blockNeedCS, blockNeedS, blockServed, blockBad:: Widget n
 blockB = vBox (replicate 5 (str "     "))
 
 blockGradientA0  = vBox [ str "     "
@@ -173,19 +176,19 @@ blockServed = vBox [ str "     "
                    , str "  |  "
                    , str "  |  "]
 
-blockNeedW  = vBox [ str "     "
+blockNeedCS  = vBox [ str "     "
                    , str "     "
                    , str "/\\ /\\"
                    , str "  |  "
                    , str "  |  "]
 
-blockNeedF  = vBox [ str "     "
+blockNeedS  = vBox [ str "     "
                    , str "\\   /"
                    , str " \\ / "
                    , str "  /  "
                    , str "  \\  "]
 
-blockNeedWF = vBox [ str "     "
+blockNeedC = vBox [ str "     "
                    , str "     "
                    , str "/\\ /\\"
                    , str "  /  "
@@ -197,21 +200,16 @@ blockBad = vBox [ str "     "
                      , str "  |  "
                      , str "  |  "]
 
-blockBad =      vBox [ str "     "
-                     , str "     "
-                     , str "     "
-                     , str " /|\\ "
-                     , str "  |  "]
-        
-blockGrownR =   vBox [ str "  O  "
-                     , str "o | o"
-                     , str " \\|/ "
-                     , str "  |  "
-                     , str "  |  "]
-
-blockGrownA =    vBox [ str "     "
+blockCooked =    vBox [ str "     "
                       , str "     "
                       , str " _|_ "
                       , str "(___)"
                       , str "     "]
 
+vTile :: [Widget n] -> Widget n
+vTile (b:bs) = vBox (b : [hBorder <=> b | b <- bs])
+vTile _      = emptyWidget
+
+hTile :: [Widget n] -> Widget n
+hTile (b:bs) = hBox (b : [vBorder <+> b | b <- bs])
+hTile _      = emptyWidget

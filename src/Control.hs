@@ -2,7 +2,7 @@ module Control where
 
 import Brick hiding (Result)
 import qualified Brick.Types as T
-import System.Random hiding(next)
+-- import System.Random hiding(next)
 import qualified Graphics.Vty as V
 
 
@@ -38,7 +38,7 @@ move :: (Pos -> Pos) -> PlayerState -> PlayerState
 move f ps = ps { psPos = f (psPos ps) }
 
 getStrat :: PlayerState -> Strategy
-getStrat ps = playerStrat (psChef ps)
+getStrat ps = pStrat (psChef ps)
 
 getPos :: PlayerState -> IO Pos
 getPos ps  = getStrat ps (psPos ps) (psKitchen ps) 
@@ -59,17 +59,17 @@ kitchenPrepare ps =
     else putPrepare (psKitchen ps) (psBudget ps) <$> getPos ps
 
 kitchenCook :: PlayerState -> IO(Result Kitchen)
-kitchenPrepare ps = 
+kitchenCook ps = 
     if (pBudget (psChef ps)) == 0 then return Retry
     else putCook (psKitchen ps) (psBudget ps) <$> getPos ps
 
 kitchenSeason :: PlayerState -> IO(Result Kitchen)
-kitchenPrepare ps = 
+kitchenSeason ps = 
     if (pBudget (psChef ps)) == 0 then return Retry
     else putSeason (psKitchen ps) (psBudget ps) <$> getPos ps
 
 kitchenClean :: PlayerState -> IO(Result Kitchen)
-kitchenPrepare ps = 
+kitchenClean ps = 
     if (pBudget (psChef ps)) == 0 then return Retry
     else putClean (psKitchen ps) (psBudget ps) <$> getPos ps
 
@@ -108,9 +108,9 @@ restUpdatePS ps = ps {psBudget = budgetUp (psBudget ps) 100,
               psBudgetLow = False}
 
 restartUpdatePS :: PlayerState -> PlayerState
-restartUpdatePS ps = s {psBudget = budgetUp (psBudget ps) 100,
+restartUpdatePS ps = ps {psBudget = budgetUp (psBudget ps) 100,
                 psDate = resetDate 3 (psDate ps),
-                psEarning = setZero (psEarning ps),
+                psEarning = resetEarning (psEarning ps),
                 psOver = False }
 
 needBudgetPS :: PlayerState -> Int -> PlayerState
@@ -127,47 +127,47 @@ overUpdatePS ps = ps {psOver = True,
 
 -------------------------------------------------------------------------------
 nextPlace :: PlayerState -> Result Kitchen -> EventM n (Next PlayerState)
-nextPlace ps kitchen = case next ps kitchen of
+nextPlace ps kitchen = case nextMove ps kitchen of
     Right ps' -> if (result (psKitchen ps) == kitchen) then continue (needBudgetPS ps' 20) else continue (placeUpdatePS ps')
     Left res -> halt (ps { psResult = res }) 
 
 nextPrepare :: PlayerState -> Result Kitchen -> EventM n (Next PlayerState)
-nextPrepare ps kitchen = case next ps kitchen of
+nextPrepare ps kitchen = case nextMove ps kitchen of
     Right ps' -> if (result (psKitchen ps) == kitchen) then continue (needBudgetPS ps' 5) else continue (prepareUpdatePS ps')
     Left res -> halt (ps { psResult = res }) 
 
 nextCook :: PlayerState -> Result Kitchen -> EventM n (Next PlayerState)
-nextCook ps kitchen = case next ps kitchen of
+nextCook ps kitchen = case nextMove ps kitchen of
     Right ps' -> if (result (psKitchen ps) == kitchen) then continue (needBudgetPS ps' 10) else continue (cookUpdatePS ps')
     Left res -> halt (ps { psResult = res }) 
 
 nextSeason :: PlayerState -> Result Kitchen -> EventM n (Next PlayerState)
-nextSeason ps kitchen = case next ps kitchen of
+nextSeason ps kitchen = case nextMove ps kitchen of
     Right ps' -> if (result (psKitchen ps) == kitchen) then continue (needBudgetPS ps' 5) else continue (seasonUpdatePS ps')
     Left res -> halt (ps { psResult = res }) 
 
 nextServe :: PlayerState -> Result Kitchen -> EventM n (Next PlayerState)
-nextServe ps kitchen = case next ps kitchen of
+nextServe ps kitchen = case nextMove ps kitchen of
     Right ps' -> if (result (psKitchen ps) == kitchen) then continue (needBudgetPS ps' 5) else continue (serveUpdatePS ps')
     Left res -> halt (ps { psResult = res }) 
 
 nextClean :: PlayerState -> Result Kitchen -> EventM n (Next PlayerState)
-nextClean ps kitchen = case next ps kitchen of
+nextClean ps kitchen = case nextMove ps kitchen of
     Right ps' -> if (result (psKitchen ps) == kitchen) then continue (needBudgetPS ps' 10) else continue (cleanUpdatePS ps')
     Left res -> halt (ps { psResult = res }) 
 
 nextRest :: PlayerState -> Result Kitchen -> EventM n (Next PlayerState)
-nextRest ps kitchen = case next ps kitchen of
+nextRest ps kitchen = case nextMove ps kitchen of
     Right ps' -> if ( getDate (psDate ps) == 0) then continue (overUpdatePS ps') else continue (restUpdatePS ps')
     Left res -> halt (ps { psResult = res }) 
 
 nextConfirm :: PlayerState -> Result Kitchen -> EventM n (Next PlayerState)
-nextConfirm ps kitchen = case next ps kitchen of
+nextConfirm ps kitchen = case nextMove ps kitchen of
     Right ps' -> continue (confirmUpdatePS ps')
     Left res -> halt (ps { psResult = res }) 
 
 nextRestart :: PlayerState -> Result Kitchen -> EventM n (Next PlayerState)
-nextRestart ps kitchen = case next ps kitchen of
+nextRestart ps kitchen = case nextMove ps kitchen of
     Right ps' -> continue (restartUpdatePS ps')
     Left res -> halt (ps { psResult = res }) 
 

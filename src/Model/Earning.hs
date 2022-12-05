@@ -22,7 +22,7 @@ import Prelude hiding (init)
 
 data Earning = Earning
     {
-        eKitchen    :: Int  -- current earning
+        eKitchen    :: Int,  -- current earning
         eMax        :: Int  -- max earning on record
     }
     deriving (Eq, Ord, Show)
@@ -40,9 +40,9 @@ resetEarning :: Earning -> Earning
 resetEarning e = e {eKitchen = 0}
 
 setMaxEarning :: Earning -> Earning
-setMaxEarning e = e {eMax = if (curr > max) then curr else max}
-    where curr = getCurrEarning e 
-            max = getMaxEarning e 
+setMaxEarning e = e { eMax = if (curr > max) then curr else max}
+  where curr = getCurrEarning e
+        max = getMaxEarning e
 
 getCurrEarning :: Earning -> Int
 getCurrEarning Earning {..} = eKitchen

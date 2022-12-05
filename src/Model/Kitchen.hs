@@ -11,7 +11,7 @@ module Model.Kitchen
         init,
         putGradientA,
         putGradientB,
-        putGradientC,
+        -- putGradientC,
         putPrepare,
         putCook,
         putSeason,
@@ -43,7 +43,7 @@ import qualified Data.Map as M
 --  Kitchen Board
 ------------------------------
 
-type Board = M.Map Pos Dish
+type Kitchen = M.Map Pos Dish
 
 -- * Dishes
 data Dish
@@ -73,8 +73,8 @@ data Pos = Pos
     }
     deriving (Eq, Ord)
 
-(!) :: Board -> Pos -> Maybe Dish
-board ! pos = M.lookup pos board
+(!) :: Kitchen -> Pos -> Maybe Dish
+kitchen ! pos = M.lookup pos kitchen
 
 dim :: Int
 dim = 3
@@ -82,13 +82,13 @@ dim = 3
 positions :: [Pos]
 positions = [Pos row col | row <- [1 .. dim], col <- [1 .. dim]]
 
-emptyPositions :: Board -> [Pos]
-emptyPositions board = [pos | pos <- positions, M.notMember pos board]
+emptyPositions :: Kitchen -> [Pos]
+emptyPositions kitchen = [pos | pos <- positions, M.notMember pos kitchen]
 
-takenPositions :: Board -> [Pos]
-takenPositions board = [pos | pos <- positions, M.member pos board]
+takenPositions :: Kitchen -> [Pos]
+takenPositions kitchen = [pos | pos <- positions, M.member pos kitchen]
 
-init :: Board
+init :: Kitchen
 init = M.empty
 
 ------------------------------
@@ -135,7 +135,7 @@ putGradientA kitchen buget pos =
             result kitchen
 
 putGradientB :: Kitchen -> Budget -> Pos -> Result Kitchen
-putGradientA kitchen buget pos = 
+putGradientB kitchen buget pos = 
     if (getBudget buget) >= 20
         then
             case M.lookup pos kitchen of

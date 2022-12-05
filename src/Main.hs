@@ -16,25 +16,24 @@ import Control.Concurrent (threadDelay, forkIO)
 
 main :: IO()
 main = do 
-  dateNums <- fromnMaybe byDefaultDateNums <$> getDateNums 
+  dateNums <- fromMaybe byDefaultDateNums <$> getDateNums 
   chan <- newBChan 15
-  fork $ forever $ do 
+  forkIO $ forever $ do 
     writeBChan chan Tick
     threadDelay 200000
   let vty =V.mkVty V.defaultConfig
   initVty <- vty
-  res <- customMain initVty vty (Just chan) myApp (Model.init dateNums)
+  result <- customMain initVty vty (Just chan) myApp (Model.init dateNums)
   print (psResult result, psEarning result) 
 
 myApp :: App PlayerState Tick String 
 myApp = App
-{
-  appView = view
-  ,appSelectPos = const . const Nothing
-  , appEventHandler  = control  
-  , appEventStarter   = return
-  , appMapAttr      = myMap
-}
+  { appDraw         = view 
+  , appChooseCursor = const . const Nothing
+  , appHandleEvent  = control 
+  , appStartEvent   = return
+  , appAttrMap      = myMap
+  }
 
 getDateNums :: IO (Maybe Int)
 getDateNums =do 
