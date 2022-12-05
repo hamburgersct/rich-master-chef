@@ -126,7 +126,7 @@ updateDishSeason d =
 -- Operations
 putGradientA :: Kitchen -> Budget -> Pos -> Result Kitchen
 putGradientA kitchen buget pos = 
-    if (getBudget buget) >= 10
+    if (getBudget buget) >= 20
         then
             case M.lookup pos kitchen of
                 Nothing         -> result (M.insert pos GradientA0 kitchen)
@@ -198,12 +198,8 @@ putClean kitchen buget pos =
 -- * Rest 
 -- * Rest and clean remaining dishes in kitchen
 
--- putRest :: Kitchen -> Int -> Pos -> Result Kitchen
--- putRest kitchen acc pos = 
---     if acc == 1
---         then
---             case M.lookup pos kitchen of
---                 Just _          -> result (M.)
+putRest :: Kitchen  -> Pos -> Result Kitchen
+putRest kitchen _ = result kitchen
 
 putConfirm :: Kitchen -> Pos -> Result Kitchen
 putConfirm kitchen _ = result kitchen

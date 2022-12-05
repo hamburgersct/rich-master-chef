@@ -6,8 +6,8 @@ module Model.Budget
         -- * Budget APIs
         init,
         getBudget,
-        bugetUp,
-        bugetDown
+        budgetUp,
+        budgetDown
     )
     where
 import Prelude hiding (init)
@@ -26,14 +26,14 @@ init num = Budget num 100 0
 getBudget :: Budget -> Int
 getBudget Budget {..} = bKitchen
 
-bugetUp :: Budget -> Int -> Budget
-bugetUp b bUp = 
+budgetUp :: Budget -> Int -> Budget
+budgetUp b bUp = 
     if bKitchen b + bUp > bMax b 
         then b {bKitchen = bMax b}
         else b {bKitchen = bKitchen b + bUp}
 
-bugetDown :: Budget -> Int -> Budget
-bugetDown b bDown =
+budgetDown :: Budget -> Int -> Budget
+budgetDown b bDown =
     if bKitchen b - bDown < bMin b 
         then b {bKitchen = bMin b}
         else b {bKitchen = bKitchen b - bDown}
