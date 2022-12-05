@@ -11,12 +11,10 @@ module Model.Kitchen
         init,
         putGradientA,
         putGradientB,
-        -- putGradientC,
         putPrepare,
         putCook,
         putSeason,
         putServe,
-        -- * putDebug
         putRest,
         putClean,
         putConfirm,
@@ -53,15 +51,9 @@ data Dish
     | Prepared_cooked_us_A  -- prepared & cooked but unseasoned dish A
     | Prepared_raw_s_A -- prepared, seasoned but not-fully-cooked dish A
     | DishA             -- Soup (good to serve)
-    -- | ServedDishA       -- served Soup
     | GradientB         -- unprepared gradient for dish B (Sashimi)
     | Prepared_us_B     -- prepared but unseasoned dish B
     | DishB             -- Sashimi (ready to serve)
-    -- | ServedDishB       -- served sashimi
-    -- | GradientC0        -- unprepared gradient for dish C (steak)
-    -- | GradientC1        -- prepared gradient for dish C
-    -- | Prepared_raw_us_C -- prepared, not-fully-cooked, unseasoned dish C
-    -- | Prepared_
     | Bad               -- Mistreated dishes
     deriving (Eq, Show)
 
@@ -199,7 +191,7 @@ putClean kitchen buget pos =
 -- * Rest and clean remaining dishes in kitchen
 
 putRest :: Kitchen  -> Pos -> Result Kitchen
-putRest kitchen _ = result kitchen
+putRest kitchen pos = result M.empty
 
 putConfirm :: Kitchen -> Pos -> Result Kitchen
 putConfirm kitchen _ = result kitchen

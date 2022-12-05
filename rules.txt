@@ -1,0 +1,19 @@
+Model: Kitchen, Date, Budget, Earning, Player
+
+------------------------------
+Kitceh.hs
+------------------------------
+data: Dish
+= prepare, cook, season
+
+(soup)
+gradientA0 -prepare-> gradientA1 -cook-> Prepared_raw_us_A  -season-> Prepared_raw_s_A -cook-> dishA
+                                                        |                                           |
+                                                        cook                                        |
+                                                        |                                           |
+                                                        Prepared_cooked_us_A        ----season----- |
+(sashimi)
+gradientB -prepare-> Prepared_us_B -season-> dishB
+
+(steak)
+gradientC0 -prepare-> gradientC1 -season-> dish_raw_ns_C -cook-> dish_cooked_ns_C -season-> dishC

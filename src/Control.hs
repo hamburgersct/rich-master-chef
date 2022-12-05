@@ -27,7 +27,7 @@ control ps event = case event of
     T.VtyEvent (V.EvKey (V.KChar 's') _) -> nextSeason ps   =<< liftIO (kitchenSeason ps)
     T.VtyEvent (V.EvKey (V.KChar 'c') _) -> nextClean ps   =<< liftIO (kitchenClean ps)
     T.VtyEvent (V.EvKey (V.KChar 'e') _) -> nextServe ps   =<< liftIO (kitchenServe ps)
-    T.VtyEvent (V.EvKey (V.KChar 'r') _) -> nextRest ps   =<< liftIO (kitchenRest ps)
+    T.VtyEvent (V.EvKey (V.KChar ' ') _) -> nextRest ps   =<< liftIO (kitchenRest ps)
     T.VtyEvent (V.EvKey (V.KChar 'v') _) -> nextConfirm ps   =<< liftIO (kitchenConfirm ps)
     T.VtyEvent (V.EvKey V.KEnter _) -> nextRestart ps  =<< liftIO (kitchenRestart ps)
 
@@ -97,7 +97,8 @@ seasonUpdatePS :: PlayerState -> PlayerState
 seasonUpdatePS ps = ps {psBudget = budgetDown (psBudget ps) 5}
 
 serveUpdatePS :: PlayerState -> PlayerState
-serveUpdatePS ps = ps {psBudget = budgetDown (psBudget ps) 5}
+serveUpdatePS ps = ps {psBudget = budgetDown (psBudget ps) 5,
+                        psEarning = add (psEarning ps)}
 
 cleanUpdatePS :: PlayerState -> PlayerState
 cleanUpdatePS ps = ps {psBudget = budgetDown (psBudget ps) 10}

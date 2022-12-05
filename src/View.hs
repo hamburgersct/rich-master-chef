@@ -67,12 +67,13 @@ showInst = withBorderStyle unicodeBold
   $ borderWithLabel (str ("Instructions"))
   $ center
   $ hLimit 80
-  $ vBox [str getInst,
-          str getInst2,
-          str getInst3,
-          str getInst4,
-          str getInst5,
-          str getInst6]
+  $ vBox [str getInst
+          -- str getInst2,
+          -- str getInst3,
+          -- str getInst4,
+          -- str getInst5,
+          -- str getInst6
+          ]
 
 showStats :: PlayerState -> Widget String
 showStats s = 
@@ -90,22 +91,22 @@ getStats s = printf "Current Budget = %d,\nEarning = %d,\nDate = %d\n" (getBudge
 
 --change wording--
 getInst :: String
-getInst = printf "Press O to plant an Apple,\nPress P to plant a rice,\nPress W to water a plant,\nPress F to apply fertilizer,\nPress C to clean up dead plant,\nPress E to eat up plant\nPress R to reap plant\nBlank Space to Sleep"
+getInst = printf "Press A to plce Gradient A,\nPress B to place Gradient B,\nPress P to prepare gradients,\nPress S to season,\nPress K to cook a dish,\nPress C to clean up,\nPress E to serve\nPress Blank Space to Sleep"
 
-getInst2 :: String
-getInst2 = printf "\nWhen plants need water their leaves are shrinking \nlike this /\\/\\\n"
+-- getInst2 :: String
+-- getInst2 = printf "\nWhen plants need water their leaves are shrinking \nlike this /\\/\\\n"
 
-getInst3 :: String
-getInst3 = printf "\nWhen plants need fertilizer their stems are twisted \n"
+-- getInst3 :: String
+-- getInst3 = printf "\nWhen plants need fertilizer their stems are twisted \n"
 
-getInst4 :: String
-getInst4 = printf "\nWhen plants are bugged their leaves are abnormal\nlike this X X \n"
+-- getInst4 :: String
+-- getInst4 = printf "\nWhen plants are bugged their leaves are abnormal\nlike this X X \n"
 
-getInst5 :: String
-getInst5 = printf "\nWhen plants are dead their leaves are falling\n"
+-- getInst5 :: String
+-- getInst5 = printf "\nWhen plants are dead their leaves are falling\n"
 
-getInst6 :: String
-getInst6 = printf "\nToo much water/fertilizer can kill the plant\n"
+-- getInst6 :: String
+-- getInst6 = printf "\nToo much water/fertilizer can kill the plant\n"
 --change wording--
 
 getEnd :: PlayerState -> String
@@ -153,21 +154,21 @@ blockB, blockGradientA0, blockGradientA1, blockCooked, blockNeedCS, blockNeedS, 
 blockB = vBox (replicate 5 (str "     "))
 
 blockGradientA0  = vBox [ str "     "
-                    , str "     "
-                    , str "  _  "
-                    , str " / \\ "
-                    , str " \\_/ "] 
+                   , str "     "
+                   , str "Gradient A0"
+                   , str "\\        / "
+                   , str " \\______/ "] 
                    
 blockGradientA1  = vBox [ str "     "
-                    , str "     "
-                    , str "  *  "
-                    , str " / \\ "
-                    , str " \\_/ "]
+                   , str "     "
+                   , str "Gradient A1"
+                   , str "\\        / "
+                   , str " \\______/ "]
                
 blockGradientB  = vBox [ str "     "
                    , str "     "
-                   , str "  x  "
-                   , str " / \\ "
+                   , str "Gradient B"
+                   , str "\\   / "
                    , str " \\_/ "]  
 
 blockServed = vBox [ str "     "
@@ -178,33 +179,33 @@ blockServed = vBox [ str "     "
 
 blockNeedCS  = vBox [ str "     "
                    , str "     "
-                   , str "/\\ /\\"
-                   , str "  |  "
-                   , str "  |  "]
+                   , str "Need Cook & Season"
+                   , str "\\   / "
+                   , str " \\_/ "]
 
 blockNeedS  = vBox [ str "     "
-                   , str "\\   /"
-                   , str " \\ / "
-                   , str "  /  "
-                   , str "  \\  "]
+                   , str "     "
+                   , str "Need Season"
+                   , str "\\   / "
+                   , str " \\_/ "]
 
 blockNeedC = vBox [ str "     "
                    , str "     "
-                   , str "/\\ /\\"
-                   , str "  /  "
-                   , str "  \\  "]
+                   , str "Need Cook"
+                   , str "\\   / "
+                   , str " \\_/ "]
 
 blockBad = vBox [ str "     "
                      , str "     "
                      , str " X X "
-                     , str "  |  "
-                     , str "  |  "]
+                     , str "\\   / "
+                     , str " \\_/ "]
 
 blockCooked =    vBox [ str "     "
-                      , str "     "
                       , str " _|_ "
                       , str "(___)"
-                      , str "     "]
+                      , str "\\   / "
+                      , str " \\_/ "]
 
 vTile :: [Widget n] -> Widget n
 vTile (b:bs) = vBox (b : [hBorder <=> b | b <- bs])
