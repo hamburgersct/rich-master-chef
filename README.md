@@ -21,6 +21,21 @@ This is a restaurant simulation game based on the brick library to provide users
 - Budget: budget allocated each day, and operations on the budget
 - Earning: earnings obtained each day so far
 - Player: status of the player
+  
+## Instructions
+
+- The master chef has 3 days to run this restuarant
+- There are 2 recipes for now: Soup (Dish A) and Sashimi (Dish B)
+- How to cook soup: You should always prepare the food before cooking. Then, cook it 2 times and season it. Tadaaa, the soup is ready to be served!
+- How to cook Sashimi: For Sashimi, you don't really need to *cook* it. So, you need to prepare it first. Then, season it and serve it :)
+- Other than the recipes, you, as the master chef, can do following things:
+- Prepare gradients (-20 budget)
+- Season (-5 budget)
+- Cook (-10 budget)
+- Serve (-5 budget, +100 earning)
+- Clean up mistakes (-10 budget)
+- The game ends when *remaining days* turns 0. Then your earning will be recorded (if it is max)
+- The remaining budget of a day will be saved for the next day
 
 ### Challenges
 
