@@ -46,12 +46,12 @@ getPos ps  = getStrat ps (psPos ps) (psKitchen ps)
 kitchenPlaceA :: PlayerState -> IO(Result Kitchen)
 kitchenPlaceA ps = 
     if (pBudget (psChef ps)) == 0 then return Retry
-    else putGradientA (psKitchen ps) (psBudget ps) <$> getPos ps
+    else putIngredientA (psKitchen ps) (psBudget ps) <$> getPos ps
 
 kitchenPlaceB :: PlayerState -> IO(Result Kitchen)
 kitchenPlaceB ps = 
     if (pBudget (psChef ps)) == 0 then return Retry
-    else putGradientB (psKitchen ps) (psBudget ps) <$> getPos ps
+    else putIngredientB (psKitchen ps) (psBudget ps) <$> getPos ps
 
 kitchenPrepare :: PlayerState -> IO(Result Kitchen)
 kitchenPrepare ps = 

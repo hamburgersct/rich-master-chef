@@ -9,8 +9,8 @@ module Model.Kitchen
         dim,
         (!),
         init,
-        putGradientA,
-        putGradientB,
+        putIngredientA,
+        putIngredientB,
         putPrepare,
         putCook,
         putSeason,
@@ -44,13 +44,13 @@ type Kitchen = M.Map Pos Dish
 
 -- * Dishes
 data Dish
-    = GradientA0        -- unprepared gradient for dish A (soup)
-    | GradientA1        -- prepared gradient for dish A (soup)
+    = IngredientA0        -- unprepared Ingredient for dish A (soup)
+    | IngredientA1        -- prepared Ingredient for dish A (soup)
     | Prepared_raw_us_A -- prepared but still not-fully-cooked & unseasoned dish A
     | Prepared_cooked_us_A  -- prepared & cooked but unseasoned dish A
     | Prepared_raw_s_A -- prepared, seasoned but not-fully-cooked dish A
     | DishA             -- Soup (good to serve)
-    | GradientB         -- unprepared gradient for dish B (Sashimi)
+    | IngredientB         -- unprepared Ingredient for dish B (Sashimi)
     | Prepared_us_B     -- prepared but unseasoned dish B
     | DishB             -- Sashimi (ready to serve)
     | Bad               -- Mistreated dishes
@@ -94,14 +94,14 @@ data Result a
 updateDishPrep :: Dish -> Maybe Dish
 updateDishPrep d =
     case d of
-        GradientA0      -> Just GradientA1
-        GradientB       -> Just Prepared_us_B
+        IngredientA0      -> Just IngredientA1
+        IngredientB       -> Just Prepared_us_B
         _               -> Just Bad
 
 updateDishCook :: Dish -> Maybe Dish
 updateDishCook d =
     case d of
-        GradientA1      -> Just Prepared_raw_us_A
+        IngredientA1      -> Just Prepared_raw_us_A
         Prepared_raw_us_A   -> Just Prepared_cooked_us_A
         Prepared_raw_s_A    -> Just DishA
         _                   -> Just Bad
@@ -115,22 +115,22 @@ updateDishSeason d =
         _                   -> Just Bad
 
 -- Operations
-putGradientA :: Kitchen -> Budget -> Pos -> Result Kitchen
-putGradientA kitchen buget pos = 
+putIngredientA :: Kitchen -> Budget -> Pos -> Result Kitchen
+putIngredientA kitchen buget pos = 
     if (getBudget buget) >= 20
         then
             case M.lookup pos kitchen of
-                Nothing         -> result (M.insert pos GradientA0 kitchen)
+                Nothing         -> result (M.insert pos IngredientA0 kitchen)
                 Just _          -> result kitchen
         else
             result kitchen
 
-putGradientB :: Kitchen -> Budget -> Pos -> Result Kitchen
-putGradientB kitchen buget pos = 
+putIngredientB :: Kitchen -> Budget -> Pos -> Result Kitchen
+putIngredientB kitchen buget pos = 
     if (getBudget buget) >= 20
         then
             case M.lookup pos kitchen of
-                Nothing         -> result (M.insert pos GradientB kitchen)
+                Nothing         -> result (M.insert pos IngredientB kitchen)
                 Just _          -> result kitchen
         else
             result kitchen

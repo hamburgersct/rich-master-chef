@@ -91,7 +91,7 @@ getStats s = printf "Current Budget = %d,\nEarning = %d,\nRemaining Days = %d\n"
 
 --change wording--
 getInst :: String
-getInst = printf "Press A to place Gradient A,\nPress B to place Gradient B,\nPress P to prepare gradients,\nPress S to season,\nPress K to cook a dish,\nPress C to clean up,\nPress E to serve\nPress Blank Space to Sleep"
+getInst = printf "Press A to place Ingredient A,\nPress B to place Ingredient B,\nPress P to prepare Ingredients,\nPress S to season,\nPress K to cook a dish,\nPress C to clean up,\nPress E to serve\nPress Blank Space to Sleep"
 
 -- getInst2 :: String
 -- getInst2 = printf "\nWhen plants need water their leaves are shrinking \nlike this /\\/\\\n"
@@ -139,35 +139,35 @@ mkCell' s r c = center (mkDish xoMb)
 
 mkDish :: Maybe Dish -> Widget n
 mkDish Nothing = blockB
-mkDish (Just GradientA0) = blockGradientA0
-mkDish (Just GradientA1) = blockGradientA1
+mkDish (Just IngredientA0) = blockIngredientA0
+mkDish (Just IngredientA1) = blockIngredientA1
 mkDish (Just Prepared_raw_us_A) = blockNeedCS
 mkDish (Just Prepared_cooked_us_A) = blockNeedS
 mkDish (Just Prepared_raw_s_A) = blockNeedC
 mkDish (Just DishA) = blockCooked
-mkDish (Just GradientB) = blockGradientB
+mkDish (Just IngredientB) = blockIngredientB
 mkDish (Just Prepared_us_B) = blockNeedS
 mkDish (Just DishB) = blockCooked
 mkDish (Just Bad) = blockBad
 
-blockB, blockGradientA0, blockGradientA1, blockCooked, blockNeedCS, blockNeedS, blockBad:: Widget n
+blockB, blockIngredientA0, blockIngredientA1, blockCooked, blockNeedCS, blockNeedS, blockBad:: Widget n
 blockB = vBox (replicate 5 (str "     "))
 
-blockGradientA0  = vBox [ str "     "
+blockIngredientA0  = vBox [ str "     "
                    , str "     "
-                   , str "Gradient A0"
+                   , str "Ingredient A0"
                    , str "\\        / "
                    , str " \\______/ "] 
                    
-blockGradientA1  = vBox [ str "     "
+blockIngredientA1  = vBox [ str "     "
                    , str "     "
-                   , str "Gradient A1"
+                   , str "Ingredient A1"
                    , str "\\        / "
                    , str " \\______/ "]
                
-blockGradientB  = vBox [ str "     "
+blockIngredientB  = vBox [ str "     "
                    , str "     "
-                   , str "Gradient B"
+                   , str "Ingredient B"
                    , str "\\      / "
                    , str " \\____/ "]  
 
